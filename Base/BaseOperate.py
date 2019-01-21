@@ -4,10 +4,11 @@ import os
 import threading
 
 import appium.common.exceptions
+from appium.webdriver.common.touch_action import TouchAction
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions
 
-__author__ = 'shikun'
+#! /usr/bin/env pthon3/n # -*- coding:utf-8 -*-/n __author__ = 'Aaron_chan'/n
 # -*- coding: utf-8 -*-
 from selenium.webdriver.support.ui import WebDriverWait
 import selenium.common.exceptions
@@ -16,10 +17,8 @@ import time
 import os
 
 '''
-# 此脚本主要用于查找元素是否存在，操作页面元素
+此脚本主要用于查找元素是否存在，操作页面元素
 '''
-
-
 class OperateElement:
     def __init__(self, driver=""):
         self.driver = driver
@@ -38,8 +37,8 @@ class OperateElement:
                         self.switchToWebview()
                     elif item.get("is_webview", "0") == 2:
                         self.switchToNative()
-                    # if item.get("element_info", "0") == "0":  # 如果没有页面元素，就不检测是页面元素，可能是滑动等操作
-                    #     return {"result": True}
+                    if item.get("element_info", "0") == 0:  # 如果没有页面元素，就不检测是页面元素，可能是滑动等操作
+                        return {"result": True}
                     t = item["check_time"] if item.get("check_time", "0") != "0" else be.WAIT_TIME
                     WebDriverWait(self.driver, t).until(lambda x: self.elements_by(item))
                 return {"result": True}
@@ -49,7 +48,7 @@ class OperateElement:
                     return {"result": False, "webview": False}
                 elif mOperate.get("is_webview", "0") == 2:
                     self.switchToNative()
-                if mOperate.get("element_info", "0") == "0":  # 如果没有页面元素，就不检测是页面元素，可能是滑动等操作
+                if mOperate.get("element_info", "0") == 0:  # 如果没有页面元素，就不检测是页面元素，可能是滑动等操作
                     return {"result": True}
                 t = mOperate["check_time"] if mOperate.get("check_time",
                                                            "0") != "0" else be.WAIT_TIME  # 如果自定义检测时间为空，就用默认的检测等待时间
@@ -74,17 +73,24 @@ class OperateElement:
     logTest: 记录日志
     device: 设备名
     '''
-
     def operate(self, mOperate, testInfo, logTest, device):
+        '''
+
+        :param mOperate: 查找元素.mOperate是字典
+        :param testInfo: 用例介绍
+        :param logTest: 记录日志
+        :param device: 设备名
+        :return:
+        '''
         res = self.findElement(mOperate)
         if res["result"]:
             return self.operate_by(mOperate, testInfo, logTest, device)
         else:
             return res
 
-    def operate_by(self, operate, testInfo, logTest, device):
+    def operate_by(self, operate, testInfo, logTest, device, x=471, y=1836):
         try:
-            info = operate.get("element_info", " ") + "_" + operate.get("operate_type", " ") + str(operate.get(
+            info = str(operate.get("element_info", " ")) + "_" + operate.get("operate_type", " ") + str(operate.get(
                 "code", " ")) + operate.get("msg", " ")
             logTest.buildStartLine(testInfo[0]["id"] + "_" + testInfo[0]["title"] + "_" + info)  # 记录日志
             print("==操作步骤：%s==" % info)
@@ -101,8 +107,8 @@ class OperateElement:
                 be.SET_VALUE: lambda: self.set_value(operate),
                 be.ADB_TAP: lambda: self.adb_tap(operate, device),
                 be.GET_CONTENT_DESC: lambda: self.get_content_desc(operate),
-                be.PRESS_KEY_CODE: lambda: self.press_keycode(operate)
-
+                be.PRESS_KEY_CODE: lambda: self.press_keycode(operate),
+                be.SCREEN_TAP: lambda: self.screen_tap(x, y)
             }
             return elements[operate.get("operate_type")]()
         except IndexError:
@@ -127,9 +133,9 @@ class OperateElement:
             # 如果key不存在，一般都是在自定义的page页面去处理了，这里直接返回为真
             return {"result": True}
 
-    # 获取到元素到坐标点击，主要解决浮动层遮档无法触发driver.click的问题
-    def adb_tap(self, mOperate, device):
 
+    def adb_tap(self, mOperate, device):
+        # 获取到元素到坐标点击，主要解决浮动层遮档无法触发driver.click的问题
         bounds = self.elements_by(mOperate).location
         x = str(bounds["x"])
         y = str(bounds["y"])
@@ -138,6 +144,18 @@ class OperateElement:
         print(cmd)
         os.system(cmd)
 
+        return {"result": True}
+
+    def screen_tap(self, x, y):
+        '''
+        :param fun: 要消除的storyboard控件名称，如贴纸/滤镜等需要点击屏幕消除的
+        :param x: 横坐标 eg.200
+        :param y: 纵坐标 eg.200
+        :return:
+        '''
+        print('通过坐标点击')
+        actions = TouchAction(self.driver)
+        actions.tap(None, x, y).release().perform()
         return {"result": True}
 
     def toast(self, xpath, logTest, testInfo):
@@ -172,16 +190,13 @@ class OperateElement:
 
     '''
     切换native
-    
     '''
-
     def switchToNative(self):
         self.driver.switch_to.context("NATIVE_APP")  # 切换到native
 
     '''
     切换webview
     '''
-
     def switchToWebview(self):
         try:
             n = 1

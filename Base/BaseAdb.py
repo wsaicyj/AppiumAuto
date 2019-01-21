@@ -1,8 +1,8 @@
-
-# -*- coding: utf-8 -*-
+#! /usr/bin/env pthon3
+# -*- coding:utf-8 -*-
+__author__ = 'Aaron_chan'
 
 import subprocess
-
 import os
 import random
 

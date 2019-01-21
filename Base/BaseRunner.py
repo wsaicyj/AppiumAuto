@@ -1,4 +1,7 @@
-# -*- coding: utf-8 -*-
+#! /usr/bin/env pthon3
+# -*- coding:utf-8 -*-
+__author__ = 'Aaron_chan'
+
 from Base.BaseAppiumServer import AppiumServer
 from Base.BaseLog import myLog
 import unittest
@@ -32,12 +35,12 @@ def appium_testcase(devices):
 
     desired_caps['platformVersion'] = devices["platformVersion"]
     desired_caps['platformName'] = devices["platformName"]
-    desired_caps["automationName"] = devices['automationName']
+    # desired_caps["automationName"] = devices['automationName']
     desired_caps['deviceName'] = devices["deviceName"]
-    desired_caps["noReset"] = "True"
-    desired_caps['noSign'] = "True"
-    desired_caps["unicodeKeyboard"] = "True"
-    desired_caps["resetKeyboard"] = "True"
+    desired_caps["noReset"] = True
+    desired_caps['noSign'] = True
+    desired_caps["unicodeKeyboard"] = True
+    desired_caps["resetKeyboard"] = True
     desired_caps["systemPort"] = devices["systemPort"]
 
     # desired_caps['app'] = devices["app"]

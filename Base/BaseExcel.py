@@ -1,11 +1,12 @@
-__author__ = 'shikun'
-import xlsxwriter
+#! /usr/bin/env pthon3
+# -*- coding:utf-8 -*-
+__author__ = 'Aaron_chan'
+
 import os
 
 PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
 )
-
 
 class OperateReport:
     def __init__(self, wd):
@@ -41,14 +42,17 @@ class OperateReport:
         worksheet.merge_range('A1:E1', '测试报告总概况', define_format_H1)
         worksheet.merge_range('A2:E2', 'WebLink知识测试概括', define_format_H2)
 
-        _write_center(worksheet, "A3", 'versionCode', self.wd)
-        _write_center(worksheet, "A4", 'versionName', self.wd)
-        _write_center(worksheet, "A5", 'packingTime', self.wd)
+        # _write_center(worksheet, "A3", 'versionCode', self.wd)
+        # _write_center(worksheet, "A4", 'versionName', self.wd)
+        # _write_center(worksheet, "A5", 'packingTime', self.wd)
+        _write_center(worksheet, "A3", '名称', self.wd)
+        _write_center(worksheet, "A4", '包名', self.wd)
+        _write_center(worksheet, "A5", '版本号', self.wd)
         _write_center(worksheet, "A6", '测试日期', self.wd)
 
-        _write_center(worksheet, "B3", data['versionCode'], self.wd)
-        _write_center(worksheet, "B4", data['versionName'], self.wd)
-        _write_center(worksheet, "B5", data['packingTime'], self.wd)
+        _write_center(worksheet, "B3", data['appName'], self.wd)
+        _write_center(worksheet, "B4", data['packageName'], self.wd)
+        _write_center(worksheet, "B5", data['appVersion'], self.wd)
         _write_center(worksheet, "B6", data['testDate'], self.wd)
 
         _write_center(worksheet, "C3", "用例总数", self.wd)
@@ -56,7 +60,6 @@ class OperateReport:
         _write_center(worksheet, "C5", "失败总数", self.wd)
         _write_center(worksheet, "C6", "测试耗时", self.wd)
 
-        # data1 = {"test_sum": 100, "test_success": 80, "test_failed": 20, "test_date": "2018-10-10 12:10"}
         _write_center(worksheet, "D3", data['sum'], self.wd)
         _write_center(worksheet, "D4", data['pass'], self.wd)
         _write_center(worksheet, "D5", data['fail'], self.wd)
@@ -64,7 +67,7 @@ class OperateReport:
 
         _write_center(worksheet, "E3", "脚本语言", self.wd)
 
-        worksheet.merge_range('E4:E6', 'appium1.7+python3', get_format_center(self.wd))
+        worksheet.merge_range('E4:E6', 'appium1.10+python3.5', get_format_center(self.wd))
         _write_center(worksheet, "A8", '机型', self.wd)
         _write_center(worksheet, "B8", '通过', self.wd)
         _write_center(worksheet, "C8", '失败', self.wd)
@@ -107,9 +110,9 @@ class OperateReport:
                                                                     'font_color': '#ffffff'}))
         _write_center(worksheet, "A2", '机型', self.wd)
         _write_center(worksheet, "B2", '用例ID', self.wd)
-        _write_center(worksheet, "C2", '用例介绍', self.wd)
+        _write_center(worksheet, "C2", '用例标题', self.wd)
         _write_center(worksheet, "D2", '用例函数', self.wd)
-        _write_center(worksheet, "E2", '前置条件', self.wd)
+        _write_center(worksheet, "E2", '用例介绍', self.wd)
         _write_center(worksheet, "F2", '操作步骤 ', self.wd)
         _write_center(worksheet, "G2", '检查点 ', self.wd)
         _write_center(worksheet, "H2", '测试结果 ', self.wd)
@@ -167,32 +170,47 @@ def _write_center(worksheet, cl, data, wd):
 def set_row(worksheet, num, height):
     worksheet.set_row(num, height)
 
-    # 生成饼形图
-
 
 def pie(workbook, worksheet):
-    chart1 = workbook.add_chart({'type': 'pie'})
-    chart1.add_series({
+    # 生成饼形图
+    # chart1 = workbook.add_chart({'type': 'pie'})
+    # chart1.add_series({
+    #     'name': '自动化测试统计',
+    #     'categories': '=测试总况!$C$4:$C$5',
+    #     'values': '=测试总况!$D$4:$D$5',
+    # })
+    # chart1.set_title({'name': '测试统计'})
+    # # chart1.set_style(10)
+    # chart1.set_style(6)
+    # # worksheet.insert_chart('D8', chart1, {'x_offset': 25, 'y_offset': 10})
+    # worksheet.insert_chart('D8', chart1)
+
+    #生成柱状图
+    chart2 = workbook.add_chart({'type': 'column'})
+    chart2.add_series({
         'name': '自动化测试统计',
         'categories': '=测试总况!$C$4:$C$5',
         'values': '=测试总况!$D$4:$D$5',
     })
-    chart1.set_title({'name': '测试统计'})
-    chart1.set_style(10)
-    worksheet.insert_chart('A9', chart1, {'x_offset': 25, 'y_offset': 10})
+    chart2.set_title({'name': '测试统计'})
+    chart2.set_y_axis({'name': "用例数"})
+    chart2.set_x_axis({'name': "测试情况"})
+    chart2.set_style(2)
+    worksheet.insert_chart('D8', chart2)
 
 
 if __name__ == '__main__':
-    sum = {'testSumDate': '25秒', 'sum': 10, 'pass': 5, 'testDate': '2017-06-05 15:26:49', 'fail': 5,
-           'appVersion': '17051515', 'appSize': '14M', 'appName': "'简书'"}
-    info = [{"id": 1, "title": "第一次打开", "caseName": "testf01", "result": "通过", "phoneName": "三星"},
-            {"id": 1, "title": "第一次打开",
-             "caseName": "testf01", "result": "通过", "img": "d:\\1.PNG", "phoneName": "华为"}]
-    workbook = xlsxwriter.Workbook('Report.xlsx')
-    worksheet = workbook.add_worksheet("测试总况")
-    worksheet2 = workbook.add_worksheet("测试详情")
-    bc = OperateReport(wd=workbook)
-    bc.init(worksheet, sum)
-    bc.detail(worksheet2, info)
-    bc.close()
+    pass
+    # sum = {'testSumDate': '25秒', 'sum': 10, 'pass': 5, 'testDate': '2017-06-05 15:26:49', 'fail': 5,
+    #        'appVersion': '17051515', 'appSize': '14M', 'appName': "'简书'"}
+    # info = [{"id": 1, "title": "第一次打开", "caseName": "testf01", "result": "通过", "phoneName": "三星"},
+    #         {"id": 1, "title": "第一次打开",
+    #          "caseName": "testf01", "result": "通过", "img": "d:\\1.PNG", "phoneName": "华为"}]
+    # workbook = xlsxwriter.Workbook('Report.xlsx')
+    # worksheet = workbook.add_worksheet("测试总况")
+    # worksheet2 = workbook.add_worksheet("测试详情")
+    # bc = OperateReport(wd=workbook)
+    # bc.init(worksheet, sum)
+    # bc.detail(worksheet2, info)
+    # bc.close()
     #

@@ -24,6 +24,8 @@ class AppiumServer:
         for i in range(0, len(self.kwargs)):
             cmd = "appium --session-override  -p %s -bp %s -U %s" % (
             self.kwargs[i]["port"], self.kwargs[i]["bport"], self.kwargs[i]["devices"])
+            # cmd = r"node D:\appium\app-1.9.0\resources\app\node_modules\appium\build\lib\main.js --session-override  -p %s -bp %s -U %s" % (
+            #     self.kwargs[i]["port"], self.kwargs[i]["bport"], self.kwargs[i]["devices"])
             print(cmd)
             if platform.system() == "Windows":  # windows下启动server
                 t1 = RunServer(cmd)

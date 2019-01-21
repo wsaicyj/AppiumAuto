@@ -1,5 +1,6 @@
-from http.server import BaseHTTPRequestHandler,HTTPServer
+from http.server import BaseHTTPRequestHandler, HTTPServer
 from multiprocessing import Process
+import Base.BasePickle
 import subprocess
 
 pid = 0

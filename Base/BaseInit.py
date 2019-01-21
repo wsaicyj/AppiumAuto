@@ -1,29 +1,48 @@
+#! /usr/bin/env pthon3
+# -*- coding:utf-8 -*-
+__author__ = 'Aaron_chan'
+
 from Base.BaseElementEnmu import Element
 from Base.BasePickle import *
 from Base.BaseFile import *
+from Base.BaseApk import *
+from Base.BaseIpa import *
+import time
 
 PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
 )
 
+apkPath = PATH("../app/NewHealthApp_201901041724_test_v2.8.0.apk")  # 安卓测试的app路径
+ipaPath = PATH("../app/NewHealthApp_201901041724_test_v2.8.0.ipa")  # IOS测试的app路径
 
-def mk_file():
+def mk_file(platform):
     destroy()
-    mkdir_file(PATH("../Log/"+Element.INFO_FILE))
-    mkdir_file(PATH("../Log/"+Element.SUM_FILE))
+    mkdir_file(PATH("../Log/" + Element.INFO_FILE))
+    mkdir_file(PATH("../Log/" + Element.SUM_FILE))
     mkdir_file(PATH("../Log/" + Element.DEVICES_FILE))
 
-    data = read(PATH("../Log/"+Element.INFO_FILE))
-    # data["appName"] = apkInfo.getApkName()
-    # data["appSize"] = apkInfo.getApkSize()
-    # data["appVersion"] = apkInfo.getApkBaseInfo()[2]
-    data["versionCode"] = "40"
-    data["versionName"] = "1.4.0"
-    data["packingTime"] = "2017/12/4 13:00"
-    data["sum"] = 0
-    data["pass"] = 0
-    data["fail"] = 0
-    write(data=data, path=PATH("../Log/"+Element.SUM_FILE))
+    data = read(PATH("../Log/" + Element.INFO_FILE))
+    if platform == 'android':
+        apkInfo = ApkInfo(apkPath).getApkBaseInfo()
+        data["appName"] = ApkInfo(apkPath).getApkName()
+        data["packageName"] = apkInfo[0]
+        data["appVersion"] = apkInfo[2]
+
+        data["sum"] = 0
+        data["pass"] = 0
+        data["fail"] = 0
+        write(data=data, path=PATH("../Log/" + Element.SUM_FILE))
+    elif platform == 'iOS':
+        ipaInfo = getIpaInfo(ipaPath)
+        data["appName"] = ipaInfo[0]
+        data["packageName"] = ipaInfo[1]
+        data["appVersion"] = ipaInfo[2]
+
+        data["sum"] = 0
+        data["pass"] = 0
+        data["fail"] = 0
+        write(data=data, path=PATH("../Log/" + Element.SUM_FILE))
 
 
 def init(devices):
@@ -42,5 +61,7 @@ def destroy():
 
 
 if __name__ == '__main__':
-    print(destroy())
+    # print(destroy())
     # print(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+    rq = time.strftime('%Y-%m-%d %H:%M', time.localtime(time.time()))
+    print(rq)

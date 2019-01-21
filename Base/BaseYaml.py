@@ -31,14 +31,14 @@ def getYam(path):
 
 
 if __name__ == '__main__':
-    import os
-
-    PATH = lambda p: os.path.abspath(
-        os.path.join(os.path.dirname(__file__), p)
-    )
-    t = getYam(PATH("../yaml/test.yaml"))
-    print(t)
-
+    pass
+    # import os
+    #
+    # PATH = lambda p: os.path.abspath(
+    #     os.path.join(os.path.dirname(__file__), p)
+    # )
+    # t = getYam(PATH("../yaml/test.yaml"))
+    # print(t)
     # port = str(random.randint(4700, 4900))
     # bpport = str(random.randint(4700, 4900))
     # devices = "DU2TAN15AJ049163"

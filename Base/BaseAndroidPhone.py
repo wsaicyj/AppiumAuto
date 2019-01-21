@@ -1,6 +1,6 @@
 
 # -*- coding: utf-8 -*-
-__author__ = 'shikun'
+#! /usr/bin/env pthon3 # -*- coding:utf-8 -*- __author__ = 'Aaron_chan'
 import os
 import re
 import math
@@ -63,4 +63,4 @@ def get_app_pix(devices):
     return result.readline().split("Physical size:")[1]
 
 if __name__=="__main__":
-    getPhoneInfo("DU2TAN15AJ049163")
+    getPhoneInfo("33e4baeb")

@@ -13,17 +13,12 @@ PATH = lambda p: os.path.abspath(
 
 '''
 统计数据相关
-'''
-
-'''
 result bool
 logTest 记录日志类 class
 driver
 testinfo
 
 '''
-
-
 def countInfo(**kwargs):
     # get_phone = getPhoneInfo(kwargs["devices"])
     # phone_name = get_phone["brand"] + "_" + get_phone["model"] + "_" + "android" + "_" + get_phone["release"]
@@ -144,8 +139,6 @@ def countDate(testDate, testSumDate):
 '''
 测试报告
 '''
-
-
 def writeExcel():
     workbook = xlsxwriter.Workbook(PATH('../Report/' + Element.REPORT_FILE))
     worksheet = workbook.add_worksheet("测试总况")
@@ -160,8 +153,9 @@ def writeExcel():
 
 
 if __name__ == '__main__':
+    pass
     # data = {'result': '失败', 'caseName': 'FirstOpenTest', 'title': '第一次打开', 'phoneName': 'samsung_GT-I9500_android_4.4.2', 'img': 'D:\\app\\appium\\log\\samsung_GT-I9500_android_4.4.220170607184558\\第一次打开CheckPoint_1_NG.png', 'id': 'test001'}
     # writeInfo(data, PATH("../Log/info.pickle"))
     # writeInfo(data, PATH("../Log/info.pickle"))
     # _read = readInfo(PATH("../Log/info.pickle"))
-    writeExcel()
+    # writeExcel()

@@ -1,15 +1,17 @@
+#! /usr/bin/env pthon3
+# -*- coding:utf-8 -*-
+__author__ = 'Aaron_chan'
+
 from Base.BaseElementEnmu import Element
 
-"""
-element_info: 元素
-info: 用例说明
-current: 当前值
-history: 历史值
-type: 错误类型
-"""
-
-
 def get_error(kw):
+    """
+    element_info: 元素
+    info: 用例说明
+    current: 当前值
+    history: 历史值
+    type: 错误类型
+    """
     elements = {
         Element.TIME_OUT: lambda: "==%s请求超时==" % kw["element_info"],
         Element.NO_SUCH: lambda: "==%s不存在==" % kw["element_info"],

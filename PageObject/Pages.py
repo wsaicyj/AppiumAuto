@@ -22,8 +22,8 @@ class PagesObjects:
 
     def __init__(self, kwargs):
         self.driver = kwargs["driver"]
-        if kwargs.get("launch_app", "0") == "0":  # 若为空，重新打开app
-            self.driver.launch_app()
+        # if kwargs.get("launch_app", "0") == "0":  # 若为空，重新打开app
+        #     self.driver.launch_app()
         # self.path = kwargs["path"]
         self.operateElement = OperateElement(self.driver)
         self.isOperate = True
@@ -48,6 +48,11 @@ class PagesObjects:
             return False
         for item in self.testCase:
             m_s_g = self.msg + "\n" if self.msg != "" else ""
+
+            if item.get("is_time", "0") != "0":
+                time.sleep(item["is_time"])  # 等待时间
+                print("--等待下---")
+
             result = self.operateElement.operate(item, self.testInfo, self.logTest, self.device)
             if not result["result"]:
                 msg = "执行过程中失败，请检查元素是否存在" + item["element_info"] + "," + result.get("text", " ")
@@ -58,9 +63,6 @@ class PagesObjects:
                 self.testInfo[0]["msg"] = msg
                 self.isOperate = False
                 return False
-            if item.get("is_time", "0") != "0":
-                time.sleep(item["is_time"])  # 等待时间
-                print("--等待下---")
 
             if item.get("operate_type", "0") == be.GET_VALUE or item.get("operate_type", "0") == be.GET_CONTENT_DESC:
                 self.get_value.append(result["text"])
@@ -89,18 +91,18 @@ class PagesObjects:
                           testCase=self.testCase,
                           testCheck=self.testcheck)
 
-    '''
-    检查点
-    caseName:测试用例函数名 用作统计
-    logTest： 日志记录
-    devices 设备名
-    contrary：相反检查点，传1表示如果检查元素存在就说明失败
-    toast: 表示提示框检查点
-    contrary_getval: 相反值检查点，如果对比成功，说明失败
-    check_point: 自定义检查结果    
-    '''
 
     def check(self, kwargs):
+        '''
+        检查点
+        caseName:测试用例函数名 用作统计
+        logTest： 日志记录
+        devices 设备名
+        contrary：相反检查点，传1表示如果检查元素存在就说明失败
+        toast: 表示提示框检查点
+        contrary_getval: 相反值检查点，如果对比成功，说明失败
+        check_point: 自定义检查结果
+        '''
         result = True
         m_s_g = self.msg + "\n" if self.msg != "" else ""
         # 如果有重跑机制，成功后会默认把日志传进来

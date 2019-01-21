@@ -1,10 +1,8 @@
 import re
-
-__author__ = 'shikun'
 from math import floor
 import subprocess
 import os
-import json
+
 '''
 apk文件的读取信息
 '''
@@ -12,13 +10,20 @@ class ApkInfo():
     def __init__(self, apkPath):
         self.apkPath = apkPath
 
-# 得到app的文件大小
     def getApkSize(self):
+        '''
+        得到app的文件大小
+        :return:
+        '''
         size = floor(os.path.getsize(self.apkPath) / (1024 * 1000))
         return str(size) + "M"
 
 
     def getApkBaseInfo(self):
+        '''
+        获取应用基本信息
+        :return:
+        '''
         p = subprocess.Popen("aapt dump badging %s" % self.apkPath, stdout=subprocess.PIPE,
                              stderr=subprocess.PIPE,
                              stdin=subprocess.PIPE, shell=True)
@@ -27,16 +32,36 @@ class ApkInfo():
         if not match:
             raise Exception("can't get packageinfo")
         packagename = match.group(1)
-        versionCode = match.group(2)
-        versionName = match.group(3)
+        appKey = match.group(2)
+        appVersion = match.group(3)
 
-        print('packagename:' + packagename)
-        print('versionCode:' + versionCode)
-        print('versionName:' + versionName)
-        return packagename, versionName, versionCode
+        print("=====getApkInfo=========")
+        print('packageName:', packagename)
+        print('appKey:', appKey)
+        print('appVersion:', appVersion)
+        return packagename, appKey, appVersion
 
-    #得到应用名字
+    def getApkActivity(self):
+        '''
+        获取启动类名称
+        :return:
+        '''
+        p = subprocess.Popen("aapt dump badging %s" % self.apkPath, stdout=subprocess.PIPE,
+                             stderr=subprocess.PIPE,
+                             stdin=subprocess.PIPE, shell=True)
+        (output, err) = p.communicate()
+        print("=====getApkActivity=========")
+        match = re.compile("launchable-activity: name=(\S+)").search(output.decode())
+        # print("match=%s" %match)
+        if match is not None:
+            # print('launchable-activity:', match.group(1))
+            return match.group(1)
+
     def getApkName(self):
+        '''
+        获取应用名称
+        :return:
+        '''
         p = subprocess.Popen("aapt dump badging %s" % self.apkPath, stdout=subprocess.PIPE,
                              stderr=subprocess.PIPE,
                              stdin=subprocess.PIPE, shell=True)
@@ -44,30 +69,35 @@ class ApkInfo():
         t = output.decode().split()
         for item in t:
             # print(item)
-            match = re.compile("application-label:(\S+)").search(item)
+            match = re.compile("application-label-zh:(\S+)").search(item)
             if match is not None:
                 return match.group(1)
 
+    # 得到应用名字
+    # def getApkName(self):
+    #     cmd = "aapt dump badging " + self.apkPath + " | grep application-label: "
+    #     result = ""
+    #     p = subprocess.Popen(cmd, stdout=subprocess.PIPE,
+    #                          stderr=subprocess.PIPE,
+    #                          stdin=subprocess.PIPE, shell=True)
+    #     (output, err) = p.communicate()
+    #     # print(output)
+    #     if output != "":
+    #         # print(output)
+    #         result = output.split()[0].decode()[19:-1]
+    #     return result
 
-    #得到启动类
-
-    def getApkActivity(self):
-        p = subprocess.Popen("aapt dump badging %s" % self.apkPath, stdout=subprocess.PIPE,
-                             stderr=subprocess.PIPE,
-                             stdin=subprocess.PIPE, shell=True)
-        (output, err) = p.communicate()
-        print("=====getApkActivity=========")
-        match = re.compile("launchable-activity: name=(\S+)").search(output.decode())
-        print("match=%s" %match)
-        if match is not None:
-            return match.group(1)
 if __name__ == '__main__':
     pass
-    # ApkInfo(r"D:\app\appium\Img\Jianshu-2.3.1.apk").getApkActivity()
-    # ApkInfo(r"D:\app\appium\Img\Jianshu-2.3.1.apk").getApkActivity()
-    # # ApkInfo(r"D:\app\appium_study\Img\t.apk").get_apk_version()
-    # # ApkInfo(r"D:\app\appium_study\Img\t.apk").get_apk_name()
-    # ApkInfo(r"D:\app\appium_study\img\t.apk").get_apk_activity()
-    # ApkInfo(r"D:\app\appium_study\Img\t.apk").get_apk_activity()
-
+    # apkPath = '../app/NewHealthApp_201901041724_test_v2.8.0.apk'
+    #
+    # info = ApkInfo(apkPath)
+    # apk = info.getApkBaseInfo()
+    # size = info.getApkSize()
+    # activity = info.getApkActivity()
+    # appname = info.getApkName()
+    #
+    # print('appName:', appname)
+    # print('size:', size)
+    # print('launchActivity:', activity)
 

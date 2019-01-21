@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__author__ = 'shikun'
+#! /usr/bin/env pthon3/n # -*- coding:utf-8 -*-/n __author__ = 'Aaron_chan'/n
 import sys
 import random
 

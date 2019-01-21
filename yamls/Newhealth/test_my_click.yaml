@@ -1,0 +1,24 @@
+testinfo:
+    - id: test_login_001
+      title: 点击【我的】模块
+      info: 点击我的模块
+testcase:
+    - element_info: 0
+      find_type: 0
+      operate_type: screen_tap
+      is_time: 5
+      info: 点击【健康】模块
+
+    - element_info: com.xky.app.patient:id/navigation_personalCenter
+      find_type: id
+      operate_type: adb_tap
+      is_time: 5
+      info: 点击【我的】模块
+
+
+
+check:
+    - element_info: com.xky.app.patient:id/navigation_personalCenter1
+      find_type: id
+      operate_type: get_value
+      info: 验证我的模块

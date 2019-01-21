@@ -1,3 +1,6 @@
+#! /usr/bin/env pthon3
+# -*- coding:utf-8 -*-
+__author__ = 'Aaron_chan'
 
 class Element(object):
 
@@ -11,6 +14,7 @@ class Element(object):
     find_element_by_class_name = "class_name"
     CLICK = "click"
     TAP = "tap"
+    SCREEN_TAP = 'screen_tap'
     ACCESSIBILITY = "accessibility"
     ADB_TAP = "adb_tap"
     SWIPE_DOWN = "swipe_down"
