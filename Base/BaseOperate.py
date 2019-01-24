@@ -90,8 +90,8 @@ class OperateElement:
 
     def operate_by(self, operate, testInfo, logTest, device, x=471, y=1836):
         try:
-            info = str(operate.get("element_info", " ")) + "_" + operate.get("operate_type", " ") + str(operate.get(
-                "code", " ")) + operate.get("msg", " ")
+            info = str(operate.get("element_info", " ")) + "_" + str(operate.get("operate_type", " ")) + str(operate.get(
+                "code", " ")) + str(operate.get("msg", " "))
             logTest.buildStartLine(testInfo[0]["id"] + "_" + testInfo[0]["title"] + "_" + info)  # 记录日志
             print("==操作步骤：%s==" % info)
 
@@ -116,7 +116,7 @@ class OperateElement:
                 testInfo[0]["id"] + "_" + testInfo[0]["title"] + "_" + operate["element_info"] + "索引错误")  # 记录日志
             # print(operate["element_info"] + "索引错误")
             return {"result": False, "type": be.INDEX_ERROR}
-
+            return {"result": False, "type": be.INDEX_ERROR}
         except selenium.common.exceptions.NoSuchElementException:
             logTest.buildStartLine(
                 testInfo[0]["id"] + "_" + testInfo[0]["title"] + "_" + operate[

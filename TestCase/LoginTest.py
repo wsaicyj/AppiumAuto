@@ -19,8 +19,19 @@ PATH = lambda p: os.path.abspath(
 
 class LoginTest(ParametrizedTestCase):
 
-    def test_swip(self):
-        app = {"logTest": self.logTest, "driver": self.driver, "path": PATH("../yamls/Newhealth/test_my_click.yaml"),
+    # def test_my_click(self):
+    #     '''测试点击我的模块'''
+    #     app = {"logTest": self.logTest, "driver": self.driver, "path": PATH("../yamls/Newhealth/test_my_click.yaml"),
+    #            "device": self.devicesName, "caseName": sys._getframe().f_code.co_name}
+    #
+    #     page = LoginPage(app)
+    #     page.operate()
+    #     page.checkPoint()
+
+
+    def test_login(self):
+        '''测试登录功能'''
+        app = {"logTest": self.logTest, "driver": self.driver, "path": PATH("../yamls/Newhealth/test_login.yaml"),
                "device": self.devicesName, "caseName": sys._getframe().f_code.co_name}
 
         page = LoginPage(app)

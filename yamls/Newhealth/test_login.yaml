@@ -31,7 +31,7 @@ testcase:
     - element_info: com.xky.app.patient:id/et_pwd
       find_type: id
       operate_type: set_value
-      msg: cyj123456
+      msg: 123456
       is_time: 3
       info: 输入密码
 
@@ -41,26 +41,26 @@ testcase:
       is_time: 3
       info: 点击登录按钮
 
-    - element_info: com.xky.app.patient:id/iv_system_setting_up_menu
-      find_type: id
-      operate_type: adb_tap
-      is_time: 3
-      info: 点击设置按钮
-
-    - element_info: com.xky.app.patient:id/rl_exit_login
-      find_type: id
-      operate_type: adb_tap
-      is_time: 3
-      info: 点击退出登录按钮
-
-    - element_info: com.xky.app.patient:id/mTv_positive_text
-      find_type: id
-      operate_type: adb_tap
-      is_time: 3
-      info: 点击确认按钮
+#    - element_info: com.xky.app.patient:id/iv_system_setting_up_menu
+#      find_type: id
+#      operate_type: adb_tap
+#      is_time: 3
+#      info: 点击设置按钮
+#
+#    - element_info: com.xky.app.patient:id/rl_exit_login
+#      find_type: id
+#      operate_type: adb_tap
+#      is_time: 3
+#      info: 点击退出登录按钮
+#
+#    - element_info: com.xky.app.patient:id/mTv_positive_text
+#      find_type: id
+#      operate_type: adb_tap
+#      is_time: 3
+#      info: 点击确认按钮
 
 check:
-    - element_info: 0
-      find_type: 0
-      operate_type: 0
+    - element_info: com.xky.app.patient:id/tv_user_name
+      find_type: id
+      operate_type: get_value
       info: 验证是否登录成功
