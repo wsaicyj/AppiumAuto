@@ -2,7 +2,7 @@
 color a
 title ReleaseAdbPort
 echo ======================
-echo *** liyu 2015-01-15***
+echo *** cyj 2019-01-09***
 echo ***     v1.0.0     ***
 echo ======================
 echo ---------------------------

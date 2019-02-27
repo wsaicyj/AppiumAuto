@@ -38,11 +38,11 @@ class PagesObjects:
         self.is_get = False  # 检查点特殊标志，结合get_value使用。若为真，说明检查点要对比历史数据和实际数据
         self.msg = ""
 
-    '''
-     操作步骤
-    '''
 
     def operate(self):
+        '''
+        操作步骤
+        '''
         if self.test_msg[0] is False: # 如果用例编写错误
             self.isOperate = False
             return False
@@ -50,12 +50,12 @@ class PagesObjects:
             m_s_g = self.msg + "\n" if self.msg != "" else ""
 
             if item.get("is_time", "0") != "0":
+                print("--等待%s秒---" % item["is_time"])
                 time.sleep(item["is_time"])  # 等待时间
-                print("--等待下---")
 
             result = self.operateElement.operate(item, self.testInfo, self.logTest, self.device)
             if not result["result"]:
-                msg = "执行过程中失败，请检查元素是否存在" + item["element_info"] + "," + result.get("text", " ")
+                msg = "执行过程中失败，请检查%s元素是否存在,%s" % (item["element_info"], result.get("text", " "))
                 if not result.get("webview", True):
                     msg = "切换到webview失败，请确定是否在webview页面"
                 print(msg)
@@ -74,7 +74,7 @@ class PagesObjects:
         result = self.check(kwargs)
         if self.test_msg[0] is not False:  # 如果用例编写正确
             if result is not True and be.RE_CONNECT:
-                self.msg = "用例失败重连过一次，失败原因:" + self.testInfo[0]["msg"]
+                self.msg = "用例失败重连过一次，失败原因:%s" % self.testInfo[0]["msg"]
                 self.logTest.buildStartLine(self.caseName + "_失败重连")  # 记录日志
                 self.operateElement.switchToNative()
                 self.driver.launch_app()

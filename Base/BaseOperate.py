@@ -169,8 +169,12 @@ class OperateElement:
         except selenium.common.exceptions.NoSuchElementException:
             return {"result": False}
 
-    # 点击事件
     def click(self, mOperate):
+        '''
+        点击事件
+        :param mOperate:
+        :return:
+        '''
         # print(self.driver.page_source)
         if mOperate["find_type"] == be.find_element_by_id or mOperate["find_type"] == be.find_element_by_xpath:
             self.elements_by(mOperate).click()
@@ -188,16 +192,18 @@ class OperateElement:
         re_reulst = re.findall(r'[a-zA-Z\d+\u4e00-\u9fa5]', result)
         return {"result": True, "text": "".join(re_reulst)}
 
-    '''
-    切换native
-    '''
+
     def switchToNative(self):
+        '''
+            切换native
+        '''
         self.driver.switch_to.context("NATIVE_APP")  # 切换到native
 
-    '''
-    切换webview
-    '''
+
     def switchToWebview(self):
+        '''
+            切换webview
+        '''
         try:
             n = 1
             while n < 10:
@@ -219,16 +225,23 @@ class OperateElement:
             return {"result": False, "text": "appium.common.exceptions.NoSuchContextException异常"}
 
     # 左滑动
-    def swipeLeft(self, mOperate):
+    def swipeToLeft(self, mOperate):
         width = self.driver.get_window_size()["width"]
         height = self.driver.get_window_size()["height"]
         x1 = int(width * 0.75)
         y1 = int(height * 0.5)
         x2 = int(width * 0.05)
         self.driver(x1, y1, x2, y1, 600)
+        print("--swipeToLeft--")
+        return {"result": True}
 
-    # swipe start_x: 200, start_y: 200, end_x: 200, end_y: 400, duration: 2000 从200滑动到400
+
     def swipeToDown(self):
+        '''
+        向下滑动
+        swipe start_x: 200, start_y: 200, end_x: 200, end_y: 400, duration: 2000 从200滑动到400
+        :return:
+        '''
         height = self.driver.get_window_size()["height"]
         x1 = int(self.driver.get_window_size()["width"] * 0.5)
         y1 = int(height * 0.25)
@@ -243,13 +256,17 @@ class OperateElement:
         height = self.driver.get_window_size()["height"]
         width = self.driver.get_window_size()["width"]
         self.driver.swipe(width / 2, height * 3 / 4, width / 2, height / 4)
-        print("执行上拉")
+        print("-swipeToUp--")
         return {"result": True}
         # for i in range(n):
         #     self.driver.swipe(540, 800, 540, 560, 0)
         #     time.sleep(2)
 
     def swipeToRight(self):
+        '''
+        向右滑动
+        :return:
+        '''
         height = self.driver.get_window_size()["height"]
         width = self.driver.get_window_size()["width"]
         x1 = int(width * 0.05)
@@ -257,7 +274,8 @@ class OperateElement:
         x2 = int(width * 0.75)
         self.driver.swipe(x1, y1, x1, x2, 1000)
         # self.driver.swipe(0, 1327, 500, 900, 1000)
-        print("--swipeToUp--")
+        print("--swipeToRight--")
+        return {"result": True}
 
     def set_value(self, mOperate):
         """

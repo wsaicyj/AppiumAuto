@@ -5,7 +5,8 @@ testinfo:
 testcase:
     - element_info: 0
       find_type: 0
-      operate_type: screen_tap
+#      operate_type: screen_tap
+      operate_type: swipe_down
       is_time: 5
       info: 点击【健康】模块
 
@@ -18,7 +19,7 @@ testcase:
 
 
 check:
-    - element_info: com.xky.app.patient:id/navigation_personalCenter1
+    - element_info: com.xky.app.patient:id/navigation_personalCenter
       find_type: id
       operate_type: get_value
       info: 验证我的模块
