@@ -1,18 +1,16 @@
 #! /usr/bin/env pthon3
 # -*- coding:utf-8 -*-
+
 __author__ = 'Aaron_chan'
 
 # from theano import pp
 from Base import BaseInit
-from TestCase.LoginTest import LoginTest
-import sys
 
-sys.path.append("..")
+import sys
 import platform
 from Base.BaseAndroidPhone import *
 from Base.BaseAdb import *
 from Base.BaseRunner import ParametrizedTestCase
-from TestCase.HomeTest import HomeTest
 from Base.BaseAppiumServer import AppiumServer
 from multiprocessing import Pool
 import unittest
@@ -21,10 +19,14 @@ from Base.BaseStatistics import countDate, writeExcel, countSumDevices
 from Base.BasePickle import *
 from datetime import datetime
 from Base.BaseApk import ApkInfo
+from TestCase.AddPatientTest import AddPatientTest
+from TestCase.HomeTest import HomeTest
+from TestCase.LoginTest import LoginTest
+
+sys.path.append("..")
 PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
 )
-
 
 def kill_adb():
     if platform.system() == "Windows":
@@ -44,7 +46,7 @@ def runnerPool(getDevices):
         _initApp["platformVersion"] = getPhoneInfo(devices=_initApp["deviceName"])["release"]
         _initApp["platformName"] = "android"
         _initApp["port"] = getDevices[i]["port"]
-        # _initApp["automationName"] = "uiautomator2"
+        _initApp["automationName"] = "uiautomator2"
         _initApp["systemPort"] = getDevices[i]["systemPort"]
 
         _initApp["app"] = getDevices[i]["app"]
@@ -64,6 +66,7 @@ def runnerCaseApp(devices):
     starttime = datetime.now()
     suite = unittest.TestSuite()
     suite.addTest(ParametrizedTestCase.parametrize(LoginTest, param=devices))
+    # suite.addTest(ParametrizedTestCase.parametrize(AddPatientTest, param=devices)) #就诊人管理
     # suite.addTest(ParametrizedTestCase.parametrize(HomeTest, param=devices)) #加入测试类
     unittest.TextTestRunner(verbosity=2).run(suite)
     endtime = datetime.now()

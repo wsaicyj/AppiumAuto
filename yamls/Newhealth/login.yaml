@@ -3,11 +3,11 @@ testinfo:
       title: 登录APP
       info: 登录APP测试
 testcase:
-    - element_info: 0
-      find_type: 0
-      operate_type: screen_tap
-      is_time: 3
-      info: 点击健康模块
+#    - element_info: 0
+#      find_type: 0
+#      operate_type: screen_tap
+#      is_time: 3
+#      info: 点击健康模块
 
     - element_info: com.xky.app.patient:id/navigation_personalCenter
       find_type: id

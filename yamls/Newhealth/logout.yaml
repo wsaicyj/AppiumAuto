@@ -1,0 +1,38 @@
+testinfo:
+    - id: test_logout_001
+      title: 登录APP
+      info: 登录APP测试
+testcase:
+#    - element_info: 0
+#      find_type: 0
+#      operate_type: screen_tap
+#      is_time: 3
+#      info: 点击健康模块
+    - element_info: com.xky.app.patient:id/navigation_personalCenter
+      find_type: id
+      operate_type: adb_tap
+      is_time: 5
+      info: 点击我的模块
+    - element_info: com.xky.app.patient:id/iv_system_setting_up_menu
+      find_type: id
+      operate_type: adb_tap
+      is_time: 3
+      info: 点击设置按钮
+
+    - element_info: com.xky.app.patient:id/rl_exit_login
+      find_type: id
+      operate_type: adb_tap
+      is_time: 3
+      info: 点击退出登录按钮
+
+    - element_info: com.xky.app.patient:id/mTv_positive_text
+      find_type: id
+      operate_type: adb_tap
+      is_time: 3
+      info: 点击确认按钮
+
+check:
+    - element_info: com.xky.app.patient:id/tv_register_or_login
+      find_type: id
+      operate_type: get_value
+      info: 验证是否退出成功

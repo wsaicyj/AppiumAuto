@@ -88,7 +88,7 @@ class OperateElement:
         else:
             return res
 
-    def operate_by(self, operate, testInfo, logTest, device, x=471, y=1836):
+    def operate_by(self, operate, testInfo, logTest, device):
         try:
             info = str(operate.get("element_info", " ")) + "_" + str(operate.get("operate_type", " ")) + str(operate.get(
                 "code", " ")) + str(operate.get("msg", " "))
@@ -108,7 +108,7 @@ class OperateElement:
                 be.ADB_TAP: lambda: self.adb_tap(operate, device),
                 be.GET_CONTENT_DESC: lambda: self.get_content_desc(operate),
                 be.PRESS_KEY_CODE: lambda: self.press_keycode(operate),
-                be.SCREEN_TAP: lambda: self.screen_tap(x, y)
+                be.SCREEN_TAP: lambda: self.screen_tap(operate, operate)
             }
             return elements[operate.get("operate_type")]()
         except IndexError:
@@ -146,7 +146,7 @@ class OperateElement:
 
         return {"result": True}
 
-    def screen_tap(self, x, y):
+    def screen_tap(self, mOperateX, mOperateY):
         '''
         :param fun: 要消除的storyboard控件名称，如贴纸/滤镜等需要点击屏幕消除的
         :param x: 横坐标 eg.200
@@ -155,7 +155,7 @@ class OperateElement:
         '''
         print('通过坐标点击')
         actions = TouchAction(self.driver)
-        actions.tap(None, x, y).release().perform()
+        actions.tap(None, mOperateX["x"], mOperateY["y"]).release().perform()
         return {"result": True}
 
     def toast(self, xpath, logTest, testInfo):

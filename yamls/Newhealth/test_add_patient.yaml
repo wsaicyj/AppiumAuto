@@ -1,0 +1,58 @@
+testinfo:
+    - id: test_add_patient_001
+      title: 添加就诊人
+      info: 添加就诊人
+testcase:
+    - element_info: 0
+      find_type: 0
+      operate_type: screen_tap
+      is_time: 3
+      info: 点击【健康】模块
+    - element_info: com.xky.app.patient:id/navigation_personalCenter
+      find_type: id
+      operate_type: adb_tap
+      is_time: 5
+      info: 点击【我的】模块
+    - element_info: com.xky.app.patient:id/tv_people_my
+      find_type: id
+      operate_type: adb_tap
+      is_time: 3
+      info: 点击【就诊人管理】
+    - element_info: com.xky.app.patient:id/menu_toolbar_right_text_btn
+      find_type: id
+      operate_type: adb_tap
+      is_time: 3
+      info: 点击【添加】按钮
+    - element_info: com.xky.app.patient:id/et_name
+      find_type: id
+      operate_type: set_value
+      msg: 曾桂秀
+      is_time: 3
+      info: 输入姓名
+    - element_info: com.xky.app.patient:id/mTv_positive_text
+      find_type: id
+      operate_type: set_value
+      msg: 360733199205068323
+      is_time: 3
+      info: 输入证件号码
+    - element_info: com.xky.app.patient:id/tv_relation
+      find_type: id
+      operate_type: adb_tap
+      is_time: 3
+      info: 选择成员关系
+    - element_info: com.xky.app.patient:id/btnSubmit
+      find_type: id
+      operate_type: adb_tap
+      is_time: 3
+      info: 点击确定按钮
+    - element_info: com.xky.app.patient:id/menu_toolbar_right_text_btn
+        find_type: id
+        operate_type: adb_tap
+        is_time: 3
+        info: 点击保存按钮
+
+check:
+    - element_info: com.xky.app.patient:id/tv_name
+      find_type: id
+      operate_type: get_value
+      info: 验证是否添加就诊人成功
