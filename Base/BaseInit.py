@@ -13,7 +13,7 @@ PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
 )
 
-apkPath = PATH("../app/NewHealthApp_201901041724_test_v2.8.0.apk")  # 安卓测试的app路径
+apkPath = PATH("../app/NewHealthApp_201902261509_test_v2.9.0.apk")  # 安卓测试的app路径
 ipaPath = PATH("../app/NewHealthApp_201901041724_test_v2.8.0.ipa")  # IOS测试的app路径
 
 def mk_file(platform):

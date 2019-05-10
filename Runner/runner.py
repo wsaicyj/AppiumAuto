@@ -1,5 +1,6 @@
 #! /usr/bin/env pthon3
 # -*- coding:utf-8 -*-
+from TestCase.LoginTest2 import LoginTest2
 
 __author__ = 'Aaron_chan'
 
@@ -65,7 +66,8 @@ def runnerPool(getDevices):
 def runnerCaseApp(devices):
     starttime = datetime.now()
     suite = unittest.TestSuite()
-    suite.addTest(ParametrizedTestCase.parametrize(LoginTest, param=devices))
+    # suite.addTest(ParametrizedTestCase.parametrize(LoginTest, param=devices))
+    suite.addTest(ParametrizedTestCase.parametrize(LoginTest2, param=devices))
     # suite.addTest(ParametrizedTestCase.parametrize(AddPatientTest, param=devices)) #就诊人管理
     # suite.addTest(ParametrizedTestCase.parametrize(HomeTest, param=devices)) #加入测试类
     unittest.TextTestRunner(verbosity=2).run(suite)
@@ -74,7 +76,7 @@ def runnerCaseApp(devices):
 
 if __name__ == '__main__':
 
-    kill_adb()
+    # kill_adb()
 
     devicess = AndroidDebugBridge().attached_devices()
     if len(devicess) > 0:
